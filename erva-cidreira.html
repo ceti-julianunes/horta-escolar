@@ -31,6 +31,36 @@
   .fontes{font-size:11px;color:#5f5e5a;margin-top:12px;border-top:1px dashed #c0dd97;padding-top:8px}
   .footer-bar{background:#1a5c2a;color:#a8d8a8;text-align:center;padding:8px 16px;font-size:11px;font-style:italic;letter-spacing:.3px}
   .qr-hint{text-align:center;padding:8px;background:#f0f7ec;font-size:11px;color:#3b6d11}
+ .back-area {
+  padding: 12px 20px 0;
+  margin-bottom: 14px;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0f7ec;
+  color: #1a5c2a;
+  border: 1.5px solid #1a5c2a;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.back-button:hover {
+  background: #1a5c2a;
+  color: #fff;
+  transform: translateX(-2px);
+}
+
+.back-button:focus-visible {
+  outline: 3px solid #d4a017;
+  outline-offset: 2px;
+}
 </style>
 </head>
 <body>
@@ -41,6 +71,11 @@
     <div class="plant-sci">Melissa officinalis L.</div>
     <div class="badge-row"><span class="badge">Planta medicinal e aromática</span><span class="badge fam">Lamiaceae</span><span class="badge fam">Dicotiledônea</span></div>
   </div>
+ <div class="back-area">
+  <a href="index.html" class="back-button">
+    ← Voltar para a lista de plantas
+  </a>
+</div>
   <div class="card-body">
     <div class="section">
       <div class="section-title">Necessidades de cultivo</div>
