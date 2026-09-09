@@ -61,6 +61,52 @@
   outline: 3px solid #d4a017;
   outline-offset: 2px;
 }
+ .curiosidade-button {
+  width: 100%;
+  background: #d4a017;
+  color: #3f2a00;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.curiosidade-button:hover {
+  background: #e5b52b;
+  transform: translateY(-1px);
+}
+
+.curiosidade-button:focus-visible {
+  outline: 3px solid #1a5c2a;
+  outline-offset: 2px;
+}
+
+.curiosidade-escondida {
+  display: none;
+}
+
+.curiosidade-escondida.aberta {
+  display: block;
+  animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
 </style>
 </head>
 <body>
@@ -85,11 +131,53 @@
       <div class="section-title">Importância ecológica e alimentar</div>
       <ul class="bullets"><li>Utilizada em chás</li><li>Atrai polinizadores pelo aroma</li></ul>
     </div>
-    <div class="curiosidade"><span class="curiosidade-title">✦ Curiosidades</span><ul class="bullets"><li style="color:#633806">Seu aroma lembra limão</li></ul></div>
+    <button
+  type="button"
+  class="curiosidade-button"
+  id="botao-curiosidade"
+  aria-expanded="false"
+  aria-controls="curiosidade"
+>
+  ✦ Mostrar curiosidade
+</button>
+
+<div
+  class="curiosidade curiosidade-escondida"
+  id="curiosidade"
+>
+  <span class="curiosidade-title">✦ Curiosidade</span>
+
+  <ul class="bullets">
+    <li style="color:#633806">
+     Seu aroma lembra limão
+    </li>
+  </ul>
+</div>
     <div class="fontes">📚 <strong>Fontes:</strong> Ministério da Saúde; EMBRAPA</div>
   </div>
   <div class="qr-hint">CETI – Profª Júlia Nunes Alves</div>
   <div class="footer-bar">Projeto Conexão Sustentável · Horta Escolar Interativa</div>
 </div>
+ <script>
+  const botaoCuriosidade =
+    document.getElementById("botao-curiosidade");
+
+  const curiosidade =
+    document.getElementById("curiosidade");
+
+  botaoCuriosidade.addEventListener("click", function () {
+    const estaAberta =
+      curiosidade.classList.toggle("aberta");
+
+    botaoCuriosidade.textContent = estaAberta
+      ? "✦ Esconder curiosidade"
+      : "✦ Mostrar curiosidade";
+
+    botaoCuriosidade.setAttribute(
+      "aria-expanded",
+      estaAberta
+    );
+  });
+</script>
 </body>
 </html>
