@@ -106,7 +106,39 @@
     transform: translateY(0);
   }
 }
- 
+ .plant-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px 0 12px;
+}
+
+.nav-button {
+  flex: 1;
+  background: #f0f7ec;
+  color: #1a5c2a;
+  border: 1.5px solid #1a5c2a;
+  border-radius: 8px;
+  padding: 9px 8px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.nav-button:hover {
+  background: #1a5c2a;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.nav-button.disabled {
+  border-color: #c8c8c8;
+  background: #f2f2f2;
+  color: #888;
+  cursor: default;
+}
 </style>
 </head>
 <body>
@@ -156,6 +188,13 @@
     </li>
   </ul>
 </div>
+  <nav class="plant-navigation" aria-label="Navegação entre plantas">
+  <span class="nav-button disabled">← Anterior</span>
+
+  <a href="acerola.html" class="nav-button">
+    Próxima: Acerola →
+  </a>
+</nav>
     <div class="fontes">📚 <strong>Fontes:</strong> EMBRAPA; Universidade Federal de Goiás</div>
   </div>
   <div class="qr-hint">CETI – Profª Júlia Nunes Alves</div>
