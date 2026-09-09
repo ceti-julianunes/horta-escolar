@@ -61,6 +61,65 @@
       font-style: italic;
       margin-top: 8px;
     }
+    .search-area {
+  margin-bottom: 16px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #1a5c2a;
+  border-radius: 10px;
+  font-family: Georgia, serif;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #d4a017;
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.18);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.filter-btn {
+  background: #fff;
+  color: #1a5c2a;
+  border: 1.5px solid #1a5c2a;
+  border-radius: 16px;
+  padding: 6px 10px;
+  font-family: Georgia, serif;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: #1a5c2a;
+  color: #fff;
+}
+
+.result-count {
+  color: #5f5e5a;
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.no-results {
+  display: none;
+  background: #faeeda;
+  color: #633806;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  font-size: 13px;
+}
   </style>
 </head>
 <body>
@@ -72,6 +131,29 @@
 
   <div class="container">
     <div class="subtitle">Selecione uma planta</div>
+    <div class="search-area">
+  <label for="plant-search" class="subtitle">Pesquisar</label>
+
+  <input
+    type="search"
+    id="plant-search"
+    class="search-input"
+    placeholder="Digite o nome da planta..."
+    autocomplete="off"
+  >
+
+  <div class="filters" aria-label="Filtros por categoria">
+    <button class="filter-btn active" data-filter="todas">Todas</button>
+    <button class="filter-btn" data-filter="fruto">Frutos</button>
+    <button class="filter-btn" data-filter="medicinal">Medicinais</button>
+    <button class="filter-btn" data-filter="hortalica">Hortaliças</button>
+    <button class="filter-btn" data-filter="raiz">Raízes e rizomas</button>
+  </div>
+
+  <div id="result-count" class="result-count">
+    13 plantas encontradas
+  </div>
+</div>
     <ul class="plant-list">
       <li><a href="acafrao.html">
         <span class="plant-icon">🟡</span>
@@ -203,9 +285,82 @@
         <span class="arrow">›</span>
       </a></li>
     </ul>
+    <div id="no-results" class="no-results">
+  Nenhuma planta foi encontrada.
+</div>
   </div>
 
   <div class="footer">Projeto Conexão Sustentável · Horta Escolar Interativa</div>
+<script>
+  const searchInput = document.getElementById("plant-search");
+  const plantItems = document.querySelectorAll(".plant-list li");
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const resultCount = document.getElementById("result-count");
+  const noResults = document.getElementById("no-results");
 
+  let activeFilter = "todas";
+
+  function normalizeText(text) {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function getCategory(item) {
+    const type = normalizeText(
+      item.querySelector(".plant-tipo").textContent
+    );
+
+    if (type.includes("medicinal")) return "medicinal";
+    if (type.includes("hortalica")) return "hortalica";
+    if (type.includes("raiz") || type.includes("rizoma")) return "raiz";
+    if (type.includes("fruto")) return "fruto";
+
+    return "outra";
+  }
+
+  function filterPlants() {
+    const searchedText = normalizeText(searchInput.value.trim());
+    let visiblePlants = 0;
+
+    plantItems.forEach(item => {
+      const itemText = normalizeText(item.textContent);
+      const category = getCategory(item);
+
+      const matchesSearch = itemText.includes(searchedText);
+      const matchesFilter =
+        activeFilter === "todas" || category === activeFilter;
+
+      const shouldShow = matchesSearch && matchesFilter;
+
+      item.style.display = shouldShow ? "" : "none";
+
+      if (shouldShow) {
+        visiblePlants++;
+      }
+    });
+
+    resultCount.textContent =
+      visiblePlants === 1
+        ? "1 planta encontrada"
+        : `${visiblePlants} plantas encontradas`;
+
+    noResults.style.display =
+      visiblePlants === 0 ? "block" : "none";
+  }
+
+  searchInput.addEventListener("input", filterPlants);
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      filterButtons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      activeFilter = button.dataset.filter;
+      filterPlants();
+    });
+  });
+</script>
 </body>
 </html>
